@@ -1,37 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PaderbornUniversity.SILab.Hip.Auth.Utility;
 
-namespace HiP_Auth_v2
+namespace PaderbornUniversity.SILab.Hip.Auth
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public IConfigurationRoot Configuration { get; set; }
+
+        public Startup(ILoggerFactory loggerFactory, IHostingEnvironment env)
         {
+            loggerFactory.AddConsole(LogLevel.Debug);
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMvc();
+
+            var appConfig = new AppConfig(Configuration);
+            // configure identity server with in-memory stores, keys, clients and resources
+            services.AddIdentityServer()
+                .AddTemporarySigningCredential()
+                .AddInMemoryApiResources(AuthConfig.GetApiResources())
+                .AddInMemoryClients(AuthConfig.GetClients(appConfig))
+                .AddTestUsers(AuthConfig.GetUsers(appConfig))
+                .AddInMemoryIdentityResources(AuthConfig.GetIdentityResources());
+        }
+
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(LogLevel.Debug);
+            app.UseDeveloperExceptionPage();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseIdentityServer();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+			app.UseStaticFiles();
+			app.UseMvcWithDefaultRoute();
         }
     }
 }
