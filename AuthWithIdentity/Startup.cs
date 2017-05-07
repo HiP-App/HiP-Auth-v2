@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -12,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using PaderbornUniversity.SILab.Hip.Auth.Data;
 using PaderbornUniversity.SILab.Hip.Auth.Models;
 using PaderbornUniversity.SILab.Hip.Auth.Services;
+using PaderbornUniversity.SILab.Hip.Auth.Utility;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
@@ -39,9 +40,12 @@ namespace PaderbornUniversity.SILab.Hip.Auth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var appConfig = new AppConfig(Configuration);
+            services.AddSingleton<AppConfig>(appConfig);
+
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(appConfig.IdentityDatabaseConfig.ConnectionString));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -52,10 +56,22 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddIdentityServer()
+                .AddTemporarySigningCredential()
+                .AddConfigurationStore(builder =>
+                    builder.UseSqlServer(appConfig.IdentityServerDatabaseConfig.ConnectionString, options =>
+                        options.MigrationsAssembly(migrationsAssembly)))
+                .AddOperationalStore(builder =>
+                    builder.UseSqlServer(appConfig.IdentityServerDatabaseConfig.ConnectionString, options =>
+                        options.MigrationsAssembly(migrationsAssembly)))
+                .AddAspNetIdentity<ApplicationUser>(); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, AppConfig config)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -70,6 +86,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
+            // this will do the initial DB population
+            InitializeDatabase(app, config);
 
             app.UseStaticFiles();
 
@@ -77,12 +96,46 @@ namespace PaderbornUniversity.SILab.Hip.Auth
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
-            app.UseMvc(routes =>
+            app.UseIdentityServer();
+
+            app.UseMvcWithDefaultRoute();
+        }
+
+        private void InitializeDatabase(IApplicationBuilder app, AppConfig config)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in AuthConfig.GetClients(config))
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var resource in AuthConfig.GetIdentityResources())
+                    {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiResources.Any())
+                {
+                    foreach (var resource in AuthConfig.GetApiResources())
+                    {
+                        context.ApiResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }
