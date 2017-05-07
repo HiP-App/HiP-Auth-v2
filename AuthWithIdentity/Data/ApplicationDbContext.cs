@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using AuthWithIdentity.Models;
+using PaderbornUniversity.SILab.Hip.Auth.Models;
 
-namespace AuthWithIdentity.Data
+namespace PaderbornUniversity.SILab.Hip.Auth.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

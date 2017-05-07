@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AuthWithIdentity.Services
+namespace PaderbornUniversity.SILab.Hip.Auth.Services
 {
     public interface IEmailSender
     {

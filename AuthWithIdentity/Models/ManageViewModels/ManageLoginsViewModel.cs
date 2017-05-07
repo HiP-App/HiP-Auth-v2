@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace AuthWithIdentity.Models.ManageViewModels
+namespace PaderbornUniversity.SILab.Hip.Auth.Models.ManageViewModels
 {
     public class ManageLoginsViewModel
     {

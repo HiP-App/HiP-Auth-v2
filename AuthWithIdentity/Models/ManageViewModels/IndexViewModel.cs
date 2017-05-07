@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace AuthWithIdentity.Models.ManageViewModels
+namespace PaderbornUniversity.SILab.Hip.Auth.Models.ManageViewModels
 {
     public class IndexViewModel
     {

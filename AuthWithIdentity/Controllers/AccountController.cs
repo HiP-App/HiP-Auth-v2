@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using AuthWithIdentity.Models;
-using AuthWithIdentity.Models.AccountViewModels;
-using AuthWithIdentity.Services;
+using PaderbornUniversity.SILab.Hip.Auth.Models;
+using PaderbornUniversity.SILab.Hip.Auth.Models.AccountViewModels;
+using PaderbornUniversity.SILab.Hip.Auth.Services;
 
-namespace AuthWithIdentity.Controllers
+namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
 {
     [Authorize]
     public class AccountController : Controller

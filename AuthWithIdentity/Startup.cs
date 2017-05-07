@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using AuthWithIdentity.Data;
-using AuthWithIdentity.Models;
-using AuthWithIdentity.Services;
+using PaderbornUniversity.SILab.Hip.Auth.Data;
+using PaderbornUniversity.SILab.Hip.Auth.Models;
+using PaderbornUniversity.SILab.Hip.Auth.Services;
 
-namespace AuthWithIdentity
+namespace PaderbornUniversity.SILab.Hip.Auth
 {
     public class Startup
     {

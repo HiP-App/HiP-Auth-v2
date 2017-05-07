@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace AuthWithIdentity.Models.AccountViewModels
+namespace PaderbornUniversity.SILab.Hip.Auth.Models.AccountViewModels
 {
     public class SendCodeViewModel
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AuthWithIdentity.Models.ManageViewModels
+namespace PaderbornUniversity.SILab.Hip.Auth.Models.ManageViewModels
 {
     public class FactorViewModel
     {
