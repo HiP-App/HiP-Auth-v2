@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiP-Auth-v2", "HiP-Auth-v2\HiP-Auth-v2.csproj", "{21F4F550-A4C4-4AEE-8EEF-ED2B5A794A8E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthWithIdentity", "AuthWithIdentity\AuthWithIdentity.csproj", "{CE7D32FF-56B7-492C-A3FC-C61AFCA0845A}"
 EndProject
 Global
