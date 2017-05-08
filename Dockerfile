@@ -2,7 +2,7 @@ FROM microsoft/dotnet:1.1.1-sdk
 
 RUN mkdir -p /dotnetapp
 
-COPY HiP-Auth-v2 /dotnetapp
+COPY AuthWithIdentity /dotnetapp
 WORKDIR /dotnetapp
 
 EXPOSE 5001
