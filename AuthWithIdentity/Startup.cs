@@ -67,7 +67,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 .AddOperationalStore(builder =>
                     builder.UseSqlServer(appConfig.IdentityServerDatabaseConfig.ConnectionString, options =>
                         options.MigrationsAssembly(migrationsAssembly)))
-                .AddAspNetIdentity<ApplicationUser>(); ;
+                .AddAspNetIdentity<ApplicationUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
