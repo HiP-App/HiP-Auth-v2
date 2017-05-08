@@ -107,6 +107,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             {
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
+                var appDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                appDbContext.Database.Migrate();                
+
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
                 if (!context.Clients.Any())
