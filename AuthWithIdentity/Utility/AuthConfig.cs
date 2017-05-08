@@ -104,25 +104,12 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             return new List<Client> { jsClient, tokenGenerationClient };
         }
 
-        public static List<TestUser> GetUsers(AppConfig config)
-        {
-            return new List<TestUser>
-            {
-                new TestUser
-                {
-                    SubjectId = "1",
-                    Username = config.User,
-                    Password = config.UserPassword
-                }
-            };
-        }
-
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
+                new IdentityResources.Profile()
             };
         }
     }
