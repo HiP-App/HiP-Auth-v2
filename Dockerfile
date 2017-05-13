@@ -5,7 +5,7 @@ RUN mkdir -p /dotnetapp
 COPY HiP-Auth-v2 /dotnetapp
 WORKDIR /dotnetapp
 
-EXPOSE 5001
+EXPOSE 5000
 
 WORKDIR /dotnetapp
 RUN dotnet restore --no-cache
