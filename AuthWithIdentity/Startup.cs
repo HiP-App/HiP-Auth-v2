@@ -15,6 +15,7 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using IdentityServer4.Services;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
@@ -49,9 +50,12 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(appConfig.IdentityDatabaseConfig.ConnectionString));
 
+            services.AddTransient<IProfileService, AspNetIdentityProfileService>();
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .Services.AddTransient<IProfileService, AspNetIdentityProfileService>();
 
             services.AddMvc();
 
@@ -69,7 +73,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 .AddOperationalStore(builder =>
                     builder.UseSqlServer(appConfig.IdentityServerDatabaseConfig.ConnectionString, options =>
                         options.MigrationsAssembly(migrationsAssembly)))
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddProfileService<AspNetIdentityProfileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
