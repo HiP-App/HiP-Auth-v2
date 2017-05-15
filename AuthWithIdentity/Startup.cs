@@ -50,12 +50,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(appConfig.IdentityDatabaseConfig.ConnectionString));
 
-            services.AddTransient<IProfileService, AspNetIdentityProfileService>();
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders()
-                .Services.AddTransient<IProfileService, AspNetIdentityProfileService>();
+                .AddDefaultTokenProviders();
 
             services.AddMvc();
 
