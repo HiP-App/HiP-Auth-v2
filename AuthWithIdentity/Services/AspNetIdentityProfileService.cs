@@ -33,8 +33,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Services
 
             var claims = principal.Claims.ToList();
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
-            claims.Add(new Claim(JwtClaimTypes.GivenName, user.UserName));
-            // TODO: Separate first and last name
 
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
