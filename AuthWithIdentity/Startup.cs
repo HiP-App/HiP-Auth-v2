@@ -90,7 +90,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             // this will do the initial DB population
             InitializeDatabase(app, config);
 
@@ -112,7 +112,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
                 var identityDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                identityDbContext.Database.Migrate();                
+                identityDbContext.Database.Migrate();
 
                 var configurationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 configurationDbContext.Database.Migrate();
