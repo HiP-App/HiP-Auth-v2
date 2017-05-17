@@ -35,7 +35,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             {
                 ClientId = CmsAngularapp,
                 ClientName = "JavaScript Client",
-                ClientUri = "http://localhost:3000",
+                ClientUri = config.CmsAddress,
                 RequireConsent = false,
 
                 // secret for authentication
@@ -47,9 +47,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 AllowAccessTokensViaBrowser = true,
                 AllowOfflineAccess = true,
 
-                RedirectUris = { "http://localhost:3000/dashboard" },
-                PostLogoutRedirectUris = { "http://localhost:3000/login" },
-                AllowedCorsOrigins = { "http://localhost:3000", "http://localhost:5000" },
+                RedirectUris = { $"{config.CmsAddress}/dashboard" },
+                PostLogoutRedirectUris = { $"{config.CmsAddress}/login" },
+                AllowedCorsOrigins = { config.CmsAddress, config.WebApiAddress },
 
                 AllowedScopes = new List<string>
                 {
@@ -60,7 +60,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             {
                 ClientId = TokenGenerator,
                 ClientName = "Token Generator Client",
-                ClientUri = "http://localhost:7017",
+                ClientUri = config.TokenGeneratorAddress,
                 RequireConsent = false,
 
                 // secret for authentication
@@ -72,34 +72,15 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 AllowAccessTokensViaBrowser = true,
                 AllowOfflineAccess = true,
 
-                RedirectUris = { "http://localhost:7017/callback.html" },
-                PostLogoutRedirectUris = { "http://localhost:7017/index.html" },
-                AllowedCorsOrigins = { "http://localhost:5000", "http://localhost:7017" },
+                RedirectUris = { $"{config.TokenGeneratorAddress}/callback.html" },
+                PostLogoutRedirectUris = { $"{config.TokenGeneratorAddress}/index.html" },
+                AllowedCorsOrigins = { config.WebApiAddress, config.TokenGeneratorAddress },
 
                 AllowedScopes = new List<string>
                 {
                     "openid", "profile", "email", "roles", "offline_access", Api
                 }
             };
-            /*var apiClient = new Client
-            {
-                ClientId = "HiP-CmsWebApi",
-                ClientName = "CMS Client",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                // where to redirect to after login
-                RedirectUris = {"http://localhost:5001/signin-oidc"},
-
-                // where to redirect to after logout
-                PostLogoutRedirectUris = {"http://localhost:5001/signout-callback-oidc"},
-
-                AllowedScopes = new List<string>
-                {
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile,
-                    _scope
-                }
-            };*/
 
             return new List<Client> { jsClient, tokenGenerationClient };
         }
