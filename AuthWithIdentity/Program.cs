@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
-namespace HiP_Auth_v2
+namespace PaderbornUniversity.SILab.Hip.Auth
 {
     public class Program
     {
@@ -13,6 +13,7 @@ namespace HiP_Auth_v2
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://*:5001")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
