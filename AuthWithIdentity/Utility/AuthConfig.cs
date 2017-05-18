@@ -6,15 +6,13 @@ using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using PaderbornUniversity.SILab.Hip.Auth.Models;
 
 namespace PaderbornUniversity.SILab.Hip.Auth.Utility
 {
     public class AuthConfig
     {
         private AppConfig _appConfig;
-        private const string Api = "HiP-CmsWebApi";
-        private const string CmsAngularapp = "HiP-CmsAngularApp";
-        private const string TokenGenerator = "HiP-TokenGenerator";
 
         public AuthConfig(AppConfig appConfig)
         {
@@ -25,15 +23,23 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
         {
             return new List<ApiResource>
             {
-                new ApiResource(Api, Api)
+                new ApiResource(Scopes.Api, Scopes.Api)
             };
         }
 
         public static IEnumerable<Client> GetClients(AppConfig config)
         {
+            var standardScopes = new List<string>
+            {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                IdentityServerConstants.StandardScopes.Email
+            };
+
+            var jsScopes = new List<string>(standardScopes) {Scopes.Api};
             var jsClient = new Client
             {
-                ClientId = CmsAngularapp,
+                ClientId = Scopes.CmsAngularapp,
                 ClientName = "JavaScript Client",
                 ClientUri = "http://localhost:3000",
                 RequireConsent = false,
@@ -51,14 +57,14 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 PostLogoutRedirectUris = { "http://localhost:3000/login" },
                 AllowedCorsOrigins = { "http://localhost:3000", "http://localhost:5000" },
 
-                AllowedScopes = new List<string>
-                {
-                    "openid", "profile", "email", "roles", "offline_access", Api
-                }
+                AllowedScopes = jsScopes
             };
+
+            var generatorScopes = new List<string>(standardScopes);
+            generatorScopes.AddRange(Scopes.All); // Token-generated scopes can access any API
             var tokenGenerationClient = new Client
             {
-                ClientId = TokenGenerator,
+                ClientId = Scopes.TokenGenerator,
                 ClientName = "Token Generator Client",
                 ClientUri = "http://localhost:7017",
                 RequireConsent = false,
@@ -76,10 +82,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 PostLogoutRedirectUris = { "http://localhost:7017/index.html" },
                 AllowedCorsOrigins = { "http://localhost:5000", "http://localhost:7017" },
 
-                AllowedScopes = new List<string>
-                {
-                    "openid", "profile", "email", "roles", "offline_access", Api
-                }
+                AllowedScopes = generatorScopes
             };
             /*var apiClient = new Client
             {
