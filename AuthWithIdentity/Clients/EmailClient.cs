@@ -2,6 +2,7 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
+// ReSharper disable All
 namespace PaderbornUniversity.SILab.Hip.Auth.Clients
 {
     using Microsoft.Rest;
