@@ -4,7 +4,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Models
 {
     public class Scopes
     {
-        public const string Api = "HiP-CmsWebApi";
+        public const string CmsWebApi = "HiP-CmsWebApi";
         public const string CmsAngularapp = "HiP-CmsAngularApp";
         public const string TokenGenerator = "HiP-TokenGenerator";
         public const string DataStore = "HiP-DataStore";
@@ -13,7 +13,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Models
 
         public static IReadOnlyCollection<string> All = new List<string>()
         {
-            Api,
+            CmsWebApi,
             CmsAngularapp,
             TokenGenerator,
             DataStore,

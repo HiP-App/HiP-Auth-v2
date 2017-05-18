@@ -23,7 +23,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
         {
             return new List<ApiResource>
             {
-                new ApiResource(Scopes.Api, Scopes.Api)
+                new ApiResource(Scopes.CmsWebApi, Scopes.CmsWebApi)
             };
         }
 
@@ -36,7 +36,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 IdentityServerConstants.StandardScopes.Email
             };
 
-            var jsScopes = new List<string>(standardScopes) {Scopes.Api};
+            var jsScopes = new List<string>(standardScopes) {Scopes.CmsWebApi};
             var jsClient = new Client
             {
                 ClientId = Scopes.CmsAngularapp,
