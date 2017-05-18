@@ -13,6 +13,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
     public class AuthConfig
     {
         private AppConfig _appConfig;
+        private const string MobileClient = "HiP-Mobile";
 
         public AuthConfig(AppConfig appConfig)
         {
@@ -51,7 +52,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 },
                 AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                 AllowAccessTokensViaBrowser = true,
-                AllowOfflineAccess = true,
+                AllowOfflineAccess = false,
 
                 RedirectUris = { $"{config.CmsAddress}/dashboard" },
                 PostLogoutRedirectUris = { $"{config.CmsAddress}/login" },
@@ -76,7 +77,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 },
                 AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                 AllowAccessTokensViaBrowser = true,
-                AllowOfflineAccess = true,
+                AllowOfflineAccess = false,
 
                 RedirectUris = { $"{config.TokenGeneratorAddress}/callback.html" },
                 PostLogoutRedirectUris = { $"{config.TokenGeneratorAddress}/index.html" },
@@ -85,7 +86,20 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 AllowedScopes = generatorScopes
             };
 
-            return new List<Client> { jsClient, tokenGenerationClient };
+            var mobileScopes = new List<string>(standardScopes) {Scopes.FeatureToggle, Scopes.DataStore};
+            var mobileClient = new Client
+            {
+                ClientId = MobileClient,
+                ClientName = MobileClient,
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                AllowedScopes = mobileScopes
+            };
+
+            return new List<Client> { jsClient, tokenGenerationClient, mobileClient };
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()
