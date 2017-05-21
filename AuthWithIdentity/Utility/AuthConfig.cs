@@ -60,6 +60,17 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
 
                 AllowedScopes = jsScopes
             };
+            var jsClientRO = new Client // alternative: JS client with resource owner password flow
+            {
+                ClientId = $"{Scopes.CmsAngularapp}RO",
+                ClientName = $"{Scopes.CmsAngularapp}RO",
+                ClientSecrets =
+                {
+                    new Secret("secret".Sha256())
+                },
+                AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                AllowedScopes = jsScopes
+            };
 
             var generatorScopes = new List<string>(standardScopes);
             generatorScopes.AddRange(Scopes.All); // Token-generated scopes can access any API
@@ -99,7 +110,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 AllowedScopes = mobileScopes
             };
 
-            return new List<Client> { jsClient, tokenGenerationClient, mobileClient };
+            return new List<Client> { jsClient, jsClientRO, tokenGenerationClient, mobileClient };
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()
