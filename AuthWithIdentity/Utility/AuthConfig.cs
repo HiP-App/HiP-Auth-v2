@@ -48,7 +48,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 // secret for authentication
                 ClientSecrets =
                 {
-                    new Secret(config.UserSecret.Sha256())
+                    new Secret(config.ClientSecrets.Cms.Sha256())
                 },
                 AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                 AllowAccessTokensViaBrowser = true,
@@ -66,7 +66,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 ClientName = $"{Scopes.CmsAngularapp}RO",
                 ClientSecrets =
                 {
-                    new Secret("secret".Sha256())
+                    new Secret(config.ClientSecrets.Cms.Sha256())
                 },
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 AllowedScopes = jsScopes
@@ -84,7 +84,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 // secret for authentication
                 ClientSecrets =
                 {
-                    new Secret("secret".Sha256())
+                    new Secret(config.ClientSecrets.Generator.Sha256())
                 },
                 AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
                 AllowAccessTokensViaBrowser = true,
@@ -104,7 +104,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 ClientName = MobileClient,
                 ClientSecrets =
                 {
-                    new Secret("secret".Sha256())
+                    new Secret(config.ClientSecrets.Mobile.Sha256())
                 },
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                 AllowedScopes = mobileScopes
