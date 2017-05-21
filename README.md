@@ -3,7 +3,13 @@ Authorization service powered by IdentiyServer4
 
 ## Configuration
 
-The Auth-v2 service makes some assumptions about the environment in which it is run. Below are the keys of the `appsettings` file and their explanation / expected values:
+### Database
+
+This service needs a MS SQL database for storing the client configurations, user credentials etc. The recommended approach is to use the [mssql-server-linux](https://hub.docker.com/r/microsoft/mssql-server-linux/) docker image. For Windows systems there also is a native MS SQL server solution.
+
+### appsettings.json
+
+The Auth-v2 service makes some assumptions about the environment in which it is run. Below are the keys of the `appsettings.json` file and their explanation / expected values. In some cases the default configuration is fine (e.g. for the `PORT`), but in most cases these default values should be overwritten via `appsettings.Development.json` / `appsettings.Production.json`.
 
 - `PORT`: The port under which the server is run; has to be `5001`
 - `ADMIN_USERNAME`: The username of the default admin user. Should be set to `admin@hipapp.de`
