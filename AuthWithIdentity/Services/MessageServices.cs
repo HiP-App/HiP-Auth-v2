@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PaderbornUniversity.SILab.Hip.Auth.Clients;
+using PaderbornUniversity.SILab.Hip.Auth.Models;
 
 namespace PaderbornUniversity.SILab.Hip.Auth.Services
 {
@@ -10,10 +12,16 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Services
     // For more details see this link https://go.microsoft.com/fwlink/?LinkID=532713
     public class AuthMessageSender : IEmailSender, ISmsSender
     {
+        private IEmailClient _client;
+
+        public AuthMessageSender() {
+            _client = new EmailClient();
+        }
+
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var model = new EmailModel(email, subject, message);
+            return _client.EmailPostAsync(model);
         }
 
         public Task SendSmsAsync(string number, string message)

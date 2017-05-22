@@ -21,11 +21,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 Password = configuration.GetValue<string>("IDS_DB_PASSWORD"),
                 Name = configuration.GetValue<string>("IDS_DB_NAME")
             };
-            Port = configuration.GetValue<int>("Port");
-            User = configuration.GetValue<string>("User");
-            UserPassword = configuration.GetValue<string>("User-Password");
-            UserSecret = configuration.GetValue<string>("User-Secret");
-
+            Port = configuration.GetValue<int>("PORT");
+            AdminUsername = configuration.GetValue<string>("ADMIN_USERNAME");
+            AdminPassword = configuration.GetValue<string>("ADMIN_PASSWORD");
             CmsAddress = configuration.GetValue<string>("CMS_ADDRESS");
             TokenGeneratorAddress = configuration.GetValue<string>("TOKEN_GENERATOR_ADDRESS");
             WebApiAddress = configuration.GetValue<string>("WEB_API_ADDRESS");
@@ -41,9 +39,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
 
         public DatabaseConfig IdentityServerDatabaseConfig { get; }
 
-        public string UserPassword { get; set; }
+        public string AdminPassword { get; set; }
 
-        public string User { get; set; }
+        public string AdminUsername { get; set; }
 
         public int Port { get; set; }
 
