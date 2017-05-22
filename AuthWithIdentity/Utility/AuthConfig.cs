@@ -109,7 +109,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
         }
     }

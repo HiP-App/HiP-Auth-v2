@@ -13,6 +13,9 @@ using PaderbornUniversity.SILab.Hip.Auth.Services;
 using PaderbornUniversity.SILab.Hip.Auth.Utility;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using IdentityServer4.Services;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
@@ -67,7 +70,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 .AddOperationalStore(builder =>
                     builder.UseSqlServer(appConfig.IdentityServerDatabaseConfig.ConnectionString, options =>
                         options.MigrationsAssembly(migrationsAssembly)))
-                .AddAspNetIdentity<ApplicationUser>();
+                .AddAspNetIdentity<ApplicationUser>()
+                .AddProfileService<AspNetIdentityProfileService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,7 +90,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            
+
             // this will do the initial DB population
             InitializeDatabase(app, config);
 
@@ -107,36 +111,60 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             {
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
-                var appDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                appDbContext.Database.Migrate();                
+                var identityDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                identityDbContext.Database.Migrate();
 
-                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
-                context.Database.Migrate();
-                if (!context.Clients.Any())
+                var configurationDbContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                configurationDbContext.Database.Migrate();
+                if (!configurationDbContext.Clients.Any())
                 {
                     foreach (var client in AuthConfig.GetClients(config))
                     {
-                        context.Clients.Add(client.ToEntity());
+                        configurationDbContext.Clients.Add(client.ToEntity());
                     }
-                    context.SaveChanges();
+                    configurationDbContext.SaveChanges();
                 }
 
-                if (!context.IdentityResources.Any())
+                if (!configurationDbContext.IdentityResources.Any())
                 {
                     foreach (var resource in AuthConfig.GetIdentityResources())
                     {
-                        context.IdentityResources.Add(resource.ToEntity());
+                        configurationDbContext.IdentityResources.Add(resource.ToEntity());
                     }
-                    context.SaveChanges();
+                    configurationDbContext.SaveChanges();
                 }
 
-                if (!context.ApiResources.Any())
+                if (!configurationDbContext.ApiResources.Any())
                 {
                     foreach (var resource in AuthConfig.GetApiResources())
                     {
-                        context.ApiResources.Add(resource.ToEntity());
+                        configurationDbContext.ApiResources.Add(resource.ToEntity());
                     }
-                    context.SaveChanges();
+                    configurationDbContext.SaveChanges();
+                }
+
+                if (!identityDbContext.Roles.Any())
+                {
+                    foreach (var role in IdentityConfig.GetRoles())
+                    {
+                        identityDbContext.Roles.Add(role);
+                    }
+                    identityDbContext.SaveChanges();
+                }
+
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                var userName = config.AdminUsername;
+                var admin = userManager.FindByEmailAsync(userName).Result;
+                if (admin == null)
+                {
+                    admin = new ApplicationUser()
+                    {
+                        UserName = userName,
+                        Email = userName
+                    };
+
+                    userManager.CreateAsync(admin, config.AdminPassword).Wait();
+                    userManager.AddToRoleAsync(admin, "Administrator").Wait();
                 }
             }
         }
