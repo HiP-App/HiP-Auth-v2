@@ -38,29 +38,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             };
 
             var jsScopes = new List<string>(standardScopes) {Scopes.CmsWebApi};
-            var jsClient = new Client
-            {
-                ClientId = Scopes.CmsAngularapp,
-                ClientName = "JavaScript Client",
-                ClientUri = config.CmsAddress,
-                RequireConsent = false,
-
-                // secret for authentication
-                ClientSecrets =
-                {
-                    new Secret(config.ClientSecrets.Cms.Sha256())
-                },
-                AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
-                AllowAccessTokensViaBrowser = true,
-                AllowOfflineAccess = false,
-
-                RedirectUris = { $"{config.CmsAddress}/dashboard" },
-                PostLogoutRedirectUris = { $"{config.CmsAddress}/login" },
-                AllowedCorsOrigins = { config.CmsAddress, config.WebApiAddress },
-
-                AllowedScopes = jsScopes
-            };
-            var jsClientRO = new Client // alternative: JS client with resource owner password flow
+            var jsClientRO = new Client // JS client with resource owner password flow
             {
                 ClientId = $"{Scopes.CmsAngularapp}RO",
                 ClientName = $"{Scopes.CmsAngularapp}RO",
@@ -69,7 +47,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                     new Secret(config.ClientSecrets.Cms.Sha256())
                 },
                 AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                AllowedScopes = jsScopes
+                AllowedScopes = jsScopes,
+                AllowedCorsOrigins = { config.CmsAddress }
             };
 
             var generatorScopes = new List<string>(standardScopes);
@@ -110,7 +89,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 AllowedScopes = mobileScopes
             };
 
-            return new List<Client> { jsClient, jsClientRO, tokenGenerationClient, mobileClient };
+            return new List<Client> { jsClientRO, tokenGenerationClient, mobileClient };
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()
