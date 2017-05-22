@@ -24,10 +24,18 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             Port = configuration.GetValue<int>("PORT");
             AdminUsername = configuration.GetValue<string>("ADMIN_USERNAME");
             AdminPassword = configuration.GetValue<string>("ADMIN_PASSWORD");
-            // UserSecret = configuration.GetValue<string>("User-Secret");
+            CmsAddress = configuration.GetValue<string>("CMS_ADDRESS");
+            TokenGeneratorAddress = configuration.GetValue<string>("TOKEN_GENERATOR_ADDRESS");
+            WebApiAddress = configuration.GetValue<string>("WEB_API_ADDRESS");
         }
 
-		public DatabaseConfig IdentityDatabaseConfig { get; }
+        public string CmsAddress { get; set; }
+
+        public string WebApiAddress { get; set; }
+
+        public string TokenGeneratorAddress { get; set; }
+
+        public DatabaseConfig IdentityDatabaseConfig { get; }
 
         public DatabaseConfig IdentityServerDatabaseConfig { get; }
 
