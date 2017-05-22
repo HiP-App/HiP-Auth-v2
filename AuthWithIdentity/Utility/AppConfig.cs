@@ -27,6 +27,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             CmsAddress = configuration.GetValue<string>("CMS_ADDRESS");
             TokenGeneratorAddress = configuration.GetValue<string>("TOKEN_GENERATOR_ADDRESS");
             WebApiAddress = configuration.GetValue<string>("WEB_API_ADDRESS");
+            Prefix = configuration.GetValue<string>("SERVICE_PREFIX");
         }
 
         public string CmsAddress { get; set; }
@@ -46,7 +47,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
         public int Port { get; set; }
 
         public string UserSecret { get; set; }
-    }
+
+        public string Prefix { get; internal set; }
+  }
 
 	public class DatabaseConfig
 	{
