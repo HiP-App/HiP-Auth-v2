@@ -12,6 +12,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
 {
     public class AuthConfig
     {
+        private const string CmsAngularapp = "HiP-CmsAngularApp";
+        private const string TokenGenerator = "HiP-TokenGenerator";
         private AppConfig _appConfig;
         private const string MobileClient = "HiP-Mobile";
 
@@ -24,7 +26,10 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
         {
             return new List<ApiResource>
             {
-                new ApiResource(Scopes.CmsWebApi, Scopes.CmsWebApi)
+                new ApiResource(Scopes.CmsWebApi, Scopes.CmsWebApi),
+                new ApiResource(Scopes.DataStore, Scopes.DataStore),
+                new ApiResource(Scopes.FeatureToggle, Scopes.FeatureToggle),
+                new ApiResource(Scopes.OnlyOffice, Scopes.OnlyOffice)
             };
         }
 
@@ -40,8 +45,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             var jsScopes = new List<string>(standardScopes) {Scopes.CmsWebApi};
             var jsClientRO = new Client // JS client with resource owner password flow
             {
-                ClientId = $"{Scopes.CmsAngularapp}RO",
-                ClientName = $"{Scopes.CmsAngularapp}RO",
+                ClientId = $"{CmsAngularapp}RO",
+                ClientName = $"{CmsAngularapp}RO",
                 ClientSecrets =
                 {
                     new Secret(config.ClientSecrets.Cms.Sha256())
@@ -55,7 +60,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             generatorScopes.AddRange(Scopes.All); // Token-generated scopes can access any API
             var tokenGenerationClient = new Client
             {
-                ClientId = Scopes.TokenGenerator,
+                ClientId = TokenGenerator,
                 ClientName = "Token Generator Client",
                 ClientUri = config.TokenGeneratorAddress,
                 RequireConsent = false,
