@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Extensions;
@@ -27,7 +28,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Services
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var sub = context.Subject.GetSubjectId();
+            IPrincipal p = context.Subject;
+            var sub = p.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
             var principal = await _claimsFactory.CreateAsync(user);
 
@@ -47,7 +49,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Services
 
         public async Task IsActiveAsync(IsActiveContext context)
         {
-            var sub = context.Subject.GetSubjectId();
+            IPrincipal p = context.Subject;
+            var sub = p.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
             context.IsActive = user != null;
         }

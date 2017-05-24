@@ -5,8 +5,6 @@
 namespace PaderbornUniversity.SILab.Hip.Auth.Clients
 {
     using Models;
-    using PaderbornUniversity.SILab;
-    using PaderbornUniversity.SILab.Hip;
     using System.Threading;
     using System.Threading.Tasks;
 

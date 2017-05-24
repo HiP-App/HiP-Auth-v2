@@ -6,10 +6,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Models
 {
     using Microsoft.Rest;
     using Newtonsoft.Json;
-    using PaderbornUniversity.SILab;
-    using PaderbornUniversity.SILab.Hip;
-    using PaderbornUniversity.SILab.Hip.Auth;
-    using System.Linq;
 
     public partial class EmailModel
     {
