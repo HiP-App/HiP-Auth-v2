@@ -16,6 +16,7 @@ using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
@@ -102,7 +103,12 @@ namespace PaderbornUniversity.SILab.Hip.Auth
 
             app.UseIdentityServer();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                name: "default",
+                template: config.Prefix + "/{controller=Home}/{action=Index}");
+            });
         }
 
         private void InitializeDatabase(IApplicationBuilder app, AppConfig config)
