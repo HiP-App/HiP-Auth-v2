@@ -27,6 +27,14 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             CmsAddress = configuration.GetValue<string>("CMS_ADDRESS");
             TokenGeneratorAddress = configuration.GetValue<string>("TOKEN_GENERATOR_ADDRESS");
             WebApiAddress = configuration.GetValue<string>("WEB_API_ADDRESS");
+	        Prefix = configuration.GetValue<string>("SERVICE_PREFIX");
+
+            ClientSecrets = new Secrets
+            {
+                Cms = configuration.GetValue<string>("SECRET_CMS"),
+                Generator = configuration.GetValue<string>("SECRET_GENERATOR"),
+                Mobile = configuration.GetValue<string>("SECRET_MOBILE")
+            };
         }
 
         public string CmsAddress { get; set; }
@@ -39,16 +47,25 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
 
         public DatabaseConfig IdentityServerDatabaseConfig { get; }
 
+        public Secrets ClientSecrets { get; }
+
         public string AdminPassword { get; set; }
 
         public string AdminUsername { get; set; }
 
         public int Port { get; set; }
 
-        public string UserSecret { get; set; }
-    }
+        public string Prefix { get; internal set; }
+  }
 
-	public class DatabaseConfig
+  public class Secrets
+  {
+    public string Cms { get; internal set; }
+    public string Generator { get; internal set; }
+    public string Mobile { get; internal set; }
+  }
+
+  public class DatabaseConfig
 	{
 		public string Name { get; set; }
 

@@ -16,6 +16,7 @@ using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
