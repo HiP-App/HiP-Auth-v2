@@ -1,6 +1,29 @@
 # HiP-Auth-v2
 Authorization service powered by IdentiyServer4
 
+## API
+
+The most important API calls are manually documented here.
+
+### Connect
+
+#### login
+
+POST: `https://docker-hip.cs.uni-paderborn.de/develop/authv2/connect/token`
+
+Parameters as formdata:
+- `client_id`: `HiP-CmsAngularApp` | `HiP-Mobile` | `HiP-TokenGenerator`
+- `client_secret`: The client secret - can be taken from confluence, or take the default from `appsettings.json`
+- `grant_type`: `password`
+- `username`: Your username (for testing take our default HiP admin testing user)
+- `password`: Your password (for testing take our default HiP admin testing password)
+- `scope`: Always at least `openid`, add other scopes as needed (separate with a space): `HiP-CmsWebApi` `HiP-DataStore` `HiPCMS-OnlyOfficeIntegration` `HiP-FeatureToggle`
+
+### Accounts
+
+WIP
+
+
 ## Configuration
 
 ### Database
