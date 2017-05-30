@@ -3,12 +3,15 @@ Authorization service powered by IdentiyServer4
 
 ## API
 
-The most important API calls are manually documented here.
+The most important API calls are manually documented here. The return values are not 100% to our satisfaction yet but if called correctly the methods work.
+
+**Important**: There is no real login/logout here. You register at the service, and when you need a token you get it via `/connect/token`. If you want to log the user out in the frontend, just throw away the token. Revoking tokens is not supported at the moment. 
 
 ### Connect
 
-#### login
+#### Token
 
+This is, sort of, the login. You give the service your `username` and `password` and it returns a token that can be used to call the services that were specified via the `scope` parameter.
 POST: `https://docker-hip.cs.uni-paderborn.de/develop/authv2/connect/token`
 
 Parameters as formdata:
@@ -21,8 +24,28 @@ Parameters as formdata:
 
 ### Accounts
 
-WIP
+#### Register
 
+POST: `https://docker-hip.cs.uni-paderborn.de/develop/authv2/Account/Register`
+
+Parameters as formdata:
+- `Email`: The email address of the account that wants to register. Currently not restricted to any domain.
+- `Password`: The users password.
+- `ConfirmPassword`: The users confirmed password.
+- `returnUrl[optional]`: The URL that the service should redirect to.
+
+Returns:
+- `200` for every email address (otherwise an attacker could find the emails of existing accounts by calling this method)
+
+#### ForgotPassword
+
+POST: `https://docker-hip.cs.uni-paderborn.de/develop/authv2/Account/ForgotPassword`
+
+Parameters as formdata:
+- `Email`: The email address of the account that forgot its password.
+
+Returns:
+- `200` for every email address (otherwise an attacker could find the emails of existing accounts by calling this method)
 
 ## Configuration
 
