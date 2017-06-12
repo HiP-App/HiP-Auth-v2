@@ -129,15 +129,22 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                     }
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    if (returnUrl != null) {
+                    if (returnUrl != null)
+                    {
                         return RedirectToLocal(returnUrl);
-                    } else {
+                    }
+                    else
+                    {
                         return Ok();
                     }
-                } else {
+                }
+                else
+                {
                     return BadRequest();
                 }
-            } else {
+            }
+            else
+            {
                 return new StatusCodeResult(422);
             }
         }
@@ -212,7 +219,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                 }
                 
                 return View("ForgotPasswordConfirmation");
-            } else {
+            }
+            else
+            {
                 return new StatusCodeResult(422);
             }
         }
