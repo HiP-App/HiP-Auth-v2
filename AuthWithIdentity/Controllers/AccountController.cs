@@ -102,7 +102,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -121,13 +120,19 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                         $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    if (returnUrl != null) {
+                        return RedirectToLocal(returnUrl);
+                    } else {
+                        return Ok();
+                    }
                 }
                 AddErrors(result);
+            } else {
+                return new StatusCodeResult(422);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            // If we got this far, something failed
+            return BadRequest();
         }
 
         //
@@ -191,10 +196,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                 await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                    $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
                 return View("ForgotPasswordConfirmation");
+            } else {
+                return new StatusCodeResult(422);
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
         }
 
         //
