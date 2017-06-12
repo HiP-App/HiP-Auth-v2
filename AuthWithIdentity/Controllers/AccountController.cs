@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -115,17 +116,36 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                     // Send an email with this link
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                    try
+                    {
+                        await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                         $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                    }
+                    catch (HttpRequestException)
+                    {
+                        _logger.LogCritical("Sending a mail via emailSender failed");
+                        return new StatusCodeResult(412);
+                    }
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    if (returnUrl != null)
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        return Ok();
+                    }
                 }
-                AddErrors(result);
+                else
+                {
+                    return BadRequest();
+                }
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            else
+            {
+                return new StatusCodeResult(422);
+            }
         }
 
         //
@@ -182,13 +202,23 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                 // Send an email with this link
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                try
+                {
+                    await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                    $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                }
+                catch (HttpRequestException)
+                {
+                    _logger.LogCritical("Sending a mail via emailSender failed");
+                    return new StatusCodeResult(412);
+                }
+                
                 return View("ForgotPasswordConfirmation");
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            else
+            {
+                return new StatusCodeResult(422);
+            }
         }
 
         //
