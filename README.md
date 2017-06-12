@@ -36,6 +36,7 @@ Parameters as formdata:
 
 Returns:
 - `200` for every email address (otherwise an attacker could find the emails of existing accounts by calling this method). This means that the user got an email to the specified address that he should check for the confirmation link.
+- `412` ("Precondition Failed") if the email service was not reached while trying to send the confirmation email.
 - `422` ("Unprocessable Entity") if the semantics of the given model are not correct, e.g. if the passwords do not match or the email address is not valid. Currently there is no information about what exactly is not correct, but this could be added in the future if needed.
 
 #### ForgotPassword
@@ -47,6 +48,7 @@ Parameters as formdata:
 
 Returns:
 - `200` for every email address (otherwise an attacker could find the emails of existing accounts by calling this method)
+- `412` ("Precondition Failed") if the email service was not reached while trying to send the change-password email.
 - `422` ("Unprocessable Entity") if the semantics of the given model are not correct, e.g. if the email address is not valid ("valid" in terms of format)
 
 ## Configuration
