@@ -117,7 +117,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Clients
         /// </summary>
         private void Initialize()
         {
-            BaseUri = new System.Uri("http://emailservice-develop-1");
+            BaseUri = new System.Uri("http://emailservice-develop:5002/");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
