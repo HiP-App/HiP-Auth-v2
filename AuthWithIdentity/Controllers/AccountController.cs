@@ -117,10 +117,13 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                     // Send an email with this link
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    try {
+                    try
+                    {
                         await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                         $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    } catch (HttpRequestException) {
+                    }
+                    catch (HttpRequestException)
+                    {
                         _logger.LogCritical("Sending a mail via emailSender failed");
                         return new StatusCodeResult(412);
                     }
@@ -201,7 +204,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
                 {
                     await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                    $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                } catch (HttpRequestException)
+                }
+                catch (HttpRequestException)
                 {
                     _logger.LogCritical("Sending a mail via emailSender failed");
                     return new StatusCodeResult(412);
