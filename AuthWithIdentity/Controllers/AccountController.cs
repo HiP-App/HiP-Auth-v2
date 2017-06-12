@@ -59,7 +59,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -152,7 +151,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         //
         // POST: /Account/Logout
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -162,7 +160,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
 
         // GET: /Account/ConfirmEmail
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -181,7 +178,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         //
         // GET: /Account/ForgotPassword
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
@@ -191,7 +187,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -248,7 +243,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
