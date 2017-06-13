@@ -17,10 +17,12 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
+            var port = config.GetValue<string>("PORT");
+            var prefix = config.GetValue<string>("SERVICE_PREFIX");
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseConfiguration(config)
-                .UseUrls(config.GetValue<string>("server.urls"))
+                .UseUrls($"http://*:{port}/{prefix}")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()

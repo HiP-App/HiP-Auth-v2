@@ -14,11 +14,11 @@
         <dd>
             @if (Model.HasPassword)
             {
-                @Html.ActionLink("Change", "ChangePassword", "Manage")
+                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
             }
             else
             {
-                @Html.ActionLink("Create", "SetPassword", "Manage")
+                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
             }
         </dd>
     </dl>
