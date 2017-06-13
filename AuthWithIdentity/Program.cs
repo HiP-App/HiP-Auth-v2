@@ -17,10 +17,10 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
-            // NOTE: The server URL(s) are magically set via the server.urls env variable!
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseConfiguration(config)
+                .UseUrls(config.GetValue<string>("server.urls"))
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
