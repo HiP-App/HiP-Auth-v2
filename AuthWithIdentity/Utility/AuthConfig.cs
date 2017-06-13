@@ -42,7 +42,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 IdentityServerConstants.StandardScopes.Email
             };
 
-            var jsScopes = new List<string>(standardScopes) {Scopes.CmsWebApi};
+            var jsScopes = new List<string>(standardScopes) {Scopes.CmsWebApi, Scopes.OnlyOffice};
             var jsClientRO = new Client // JS client with resource owner password flow
             {
                 ClientId = CmsAngularapp,
