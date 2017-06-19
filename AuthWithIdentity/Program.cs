@@ -18,7 +18,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth
                 .AddEnvironmentVariables()
                 .Build();
             var port = config.GetValue<string>("PORT");
-            var prefix = config.GetValue<string>("SERVICE_PREFIX");
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseConfiguration(config)

@@ -105,7 +105,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("default", "develop/authv2/{controller=Home}/{action=Index}");
+                routes.MapRoute("default", config.Prefix + "/{controller=Home}/{action=Index}");
             });
         }
 
