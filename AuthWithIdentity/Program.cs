@@ -22,7 +22,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseConfiguration(config)
-                .UseUrls($"http://*:{port}/{prefix}")
+                .UseUrls($"http://*:{port}")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
