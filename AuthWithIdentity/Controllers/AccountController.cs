@@ -295,11 +295,15 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         {
             if (Url.IsLocalUrl(returnUrl))
             {
+                _logger.LogInformation("returning to: " + returnUrl);
                 return Redirect(returnUrl);
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                var action = nameof(HomeController.Index);
+                var controller = "Home";
+                _logger.LogInformation("returning to: " + controller + "/" + action);
+                return RedirectToAction(action, controller);
             }
         }
 
