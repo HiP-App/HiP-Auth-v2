@@ -16,6 +16,7 @@ using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using IdentityServer4.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
@@ -77,7 +78,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, AppConfig config)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddConsole();
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
@@ -102,7 +103,10 @@ namespace PaderbornUniversity.SILab.Hip.Auth
 
             app.UseIdentityServer();
 
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", config.Prefix + "/{controller=Home}/{action=Index}");
+            });
         }
 
         private void InitializeDatabase(IApplicationBuilder app, AppConfig config)
