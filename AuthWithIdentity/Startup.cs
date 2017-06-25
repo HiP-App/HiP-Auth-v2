@@ -14,6 +14,9 @@ using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
 
+// ReSharper disable once RedundantUsingDirective ("using can be removed" - no it can't! Another ReSharper bug?)
+using System.Linq;
+
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
     public class Startup
