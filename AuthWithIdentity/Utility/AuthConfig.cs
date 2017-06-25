@@ -9,13 +9,13 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
     {
         private const string CmsAngularapp = "HiP-CmsAngularApp";
         private const string TokenGenerator = "HiP-TokenGenerator";
-        private AppConfig _appConfig;
+        //private AppConfig _appConfig;
         private const string MobileClient = "HiP-Mobile";
 
-        public AuthConfig(AppConfig appConfig)
-        {
-            _appConfig = appConfig;
-        }
+        //public AuthConfig(AppConfig appConfig)
+        //{
+        //    _appConfig = appConfig;
+        //}
 
         public static IEnumerable<ApiResource> GetApiResources()
         {

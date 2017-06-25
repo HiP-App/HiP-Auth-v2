@@ -15,9 +15,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly string _externalCookieScheme;
-        private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
+        //private readonly string _externalCookieScheme;
+        //private readonly IEmailSender _emailSender;
+        //private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
         public ManageController(
@@ -30,9 +30,9 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
-            _emailSender = emailSender;
-            _smsSender = smsSender;
+            //_externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
+            //_emailSender = emailSender;
+            //_smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
