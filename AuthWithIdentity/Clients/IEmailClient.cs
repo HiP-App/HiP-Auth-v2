@@ -7,9 +7,6 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Clients
     using Microsoft.Rest;
     using Models;
     using Newtonsoft.Json;
-    using PaderbornUniversity.SILab;
-    using PaderbornUniversity.SILab.Hip;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;

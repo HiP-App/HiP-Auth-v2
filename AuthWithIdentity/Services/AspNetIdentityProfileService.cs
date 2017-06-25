@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -11,11 +9,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PaderbornUniversity.SILab.Hip.Auth.Services
 {
-  using System.Security.Claims;
-  using IdentityServer4;
-  using PaderbornUniversity.SILab.Hip.Auth.Models;
+    using System.Security.Claims;
+    using IdentityServer4;
+    using PaderbornUniversity.SILab.Hip.Auth.Models;
 
-  public class AspNetIdentityProfileService : IProfileService
+    public class AspNetIdentityProfileService : IProfileService
     {
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _claimsFactory;
         private readonly UserManager<ApplicationUser> _userManager;
