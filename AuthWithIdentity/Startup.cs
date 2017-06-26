@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,9 +13,9 @@ using PaderbornUniversity.SILab.Hip.Auth.Utility;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
-using IdentityServer4.Services;
-using Microsoft.AspNetCore.Http;
+
+// ReSharper disable once RedundantUsingDirective ("using can be removed" - no it can't! Another ReSharper bug?)
+using System.Linq;
 
 namespace PaderbornUniversity.SILab.Hip.Auth
 {
@@ -45,7 +44,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             var appConfig = new AppConfig(Configuration);
-            services.AddSingleton<AppConfig>(appConfig);
+            services.AddSingleton(appConfig);
 
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>

@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using IdentityModel;
 using IdentityServer4.Extensions;
@@ -10,11 +9,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PaderbornUniversity.SILab.Hip.Auth.Services
 {
-  using System.Security.Claims;
-  using IdentityServer4;
-  using PaderbornUniversity.SILab.Hip.Auth.Models;
+    using System.Security.Claims;
+    using IdentityServer4;
+    using PaderbornUniversity.SILab.Hip.Auth.Models;
 
-  public class AspNetIdentityProfileService : IProfileService
+    public class AspNetIdentityProfileService : IProfileService
     {
         private readonly IUserClaimsPrincipalFactory<ApplicationUser> _claimsFactory;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -27,7 +26,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Services
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            var sub = context.Subject.GetSubjectId();
+            IPrincipal p = context.Subject;
+            var sub = p.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
             var principal = await _claimsFactory.CreateAsync(user);
 
@@ -47,7 +47,8 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Services
 
         public async Task IsActiveAsync(IsActiveContext context)
         {
-            var sub = context.Subject.GetSubjectId();
+            IPrincipal p = context.Subject;
+            var sub = p.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
             context.IsActive = user != null;
         }

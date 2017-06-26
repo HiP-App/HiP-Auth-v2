@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
-using IdentityServer4.Test;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using PaderbornUniversity.SILab.Hip.Auth.Models;
 
 namespace PaderbornUniversity.SILab.Hip.Auth.Utility
@@ -14,13 +9,13 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
     {
         private const string CmsAngularapp = "HiP-CmsAngularApp";
         private const string TokenGenerator = "HiP-TokenGenerator";
-        private AppConfig _appConfig;
+        //private AppConfig _appConfig;
         private const string MobileClient = "HiP-Mobile";
 
-        public AuthConfig(AppConfig appConfig)
-        {
-            _appConfig = appConfig;
-        }
+        //public AuthConfig(AppConfig appConfig)
+        //{
+        //    _appConfig = appConfig;
+        //}
 
         public static IEnumerable<ApiResource> GetApiResources()
         {
@@ -43,7 +38,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
             };
 
             var jsScopes = new List<string>(standardScopes) {Scopes.CmsWebApi, Scopes.OnlyOffice};
-            var jsClientRO = new Client // JS client with resource owner password flow
+            var jsClientResOwner = new Client // JS client with resource owner password flow
             {
                 ClientId = CmsAngularapp,
                 ClientName = CmsAngularapp,
@@ -94,7 +89,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth.Utility
                 AllowedScopes = mobileScopes
             };
 
-            return new List<Client> { jsClientRO, tokenGenerationClient, mobileClient };
+            return new List<Client> { jsClientResOwner, tokenGenerationClient, mobileClient };
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()

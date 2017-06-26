@@ -1,7 +1,6 @@
 
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using PaderbornUniversity.SILab.Hip.Auth.Models;
 
 namespace PaderbornUniversity.SILab.Hip.Auth.Utility
 {

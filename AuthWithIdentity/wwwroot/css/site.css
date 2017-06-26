@@ -23,6 +23,7 @@ textarea {
     line-height: 1.4;
 }
 
+/* ReSharper disable once CssBrowserCompatibility */
 /* buttons and links extension to use brackets: [ click me ] */
 .btn-bracketed::before {
     display: inline-block;
@@ -30,6 +31,7 @@ textarea {
     padding-right: 0.5em;
 }
 
+/* ReSharper disable once CssBrowserCompatibility */
 .btn-bracketed::after {
     display: inline-block;
     content: "]";
