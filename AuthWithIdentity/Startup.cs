@@ -103,10 +103,7 @@ namespace PaderbornUniversity.SILab.Hip.Auth
 
             app.UseIdentityServer();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute("default", config.Prefix + "/{controller=Home}/{action=Index}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
 
         private void InitializeDatabase(IApplicationBuilder app, AppConfig config)
