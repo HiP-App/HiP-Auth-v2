@@ -13,7 +13,10 @@ using PaderbornUniversity.SILab.Hip.Auth.Utility;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
-
+using System.Threading.Tasks;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 // ReSharper disable once RedundantUsingDirective ("using can be removed" - no it can't! Another ReSharper bug?)
 using System.Linq;
 
@@ -97,6 +100,11 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
