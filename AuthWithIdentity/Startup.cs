@@ -97,14 +97,14 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             // this will do the initial DB population
             InitializeDatabase(app, config);
 
-            app.UseStaticFiles();
-
-            app.UseIdentity();
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
+            app.UseStaticFiles();
+
+            app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
