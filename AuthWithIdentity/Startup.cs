@@ -97,10 +97,13 @@ namespace PaderbornUniversity.SILab.Hip.Auth
             // this will do the initial DB population
             InitializeDatabase(app, config);
 
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            var fordwardedHeaderOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            };
+            fordwardedHeaderOptions.KnownNetworks.Clear();
+            fordwardedHeaderOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(fordwardedHeaderOptions);
 
             app.UseStaticFiles();
 
