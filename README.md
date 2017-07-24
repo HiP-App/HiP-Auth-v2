@@ -1,3 +1,7 @@
+```
+This repository is obsolete and will no longer be maintained.
+```
+
 # HiP-Auth-v2
 Authorization service powered by IdentiyServer4
 
